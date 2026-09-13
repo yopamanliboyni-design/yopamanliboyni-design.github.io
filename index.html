@@ -3,119 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sabina uchun maxsus...</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #ffe6e6;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
-        }
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 420px;
-            width: 85%;
-            position: relative;
-            z-index: 10;
-        }
-        .profile-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #ff4d6d;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
-        }
-        h1 { color: #ff4d6d; margin-bottom: 10px; font-size: 26px; }
-        p { color: #4a4a4a; font-size: 16px; line-height: 1.6; }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 25px;
-        }
-        button {
-            padding: 12px 30px;
-            font-size: 16px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        #yesBtn { background-color: #ff4d6d; color: white; }
-        #noBtn { background-color: #6c757d; color: white; }
-        .heart {
-            position: absolute;
-            color: #ff4d6d;
-            font-size: 20px;
-            animation: floatUp 4s linear infinite;
-            bottom: -20px;
-            z-index: 1;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
-        }
-    </style>
+    <title>Sabinam uchun maxsus...</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <audio id="loveAudio" loop>
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Ekran bo'ylab uchadigan yuraklar uchun konteyner -->
+    <div id="hearts-container"></div>
 
-    <div class="card" id="mainCard">
-        <img src="photo.jpg" class="profile-img" alt="Sabina">
-        <h1 id="title">Yagonam Sabinam... ❤️</h1>
-        <p id="text">Hayotimga kirib kelganingdan beri har bir kunim quvonchga to‘ldi. Sen mening eng shirin orzuyim, dunyodagi eng go‘zal baxtimsan. Seni cheksiz sevaman va har doim yonimda bo‘lishingni xohlayman. Ayting-chi, mening hayotim quvonchi bo‘lishga rozimisan?</p>
-        <div class="buttons" id="btnContainer">
-            <button id="yesBtn" onclick="document.getElementById('loveAudio').play(); nextPage()">Ha</button>
-            <button id="noBtn" onmouseover="moveButton()">Yo‘q</button>
+    <div class="card">
+        <!-- Yuklagan rasmingiz -->
+        <img src="photo.jpg" alt="Sabina" class="profile-img">
+        
+        <h1>Sabina ❤️</h1>
+        
+        <!-- Siz so'ragan maxsus tilaklar shu yerda -->
+        <p class="message">
+            "Siz dunyodagi eng go'zal, eng begubor va men uchun eng qadrli insonsiz. 
+            Borligingiz uchun, hayotimda borligingiz uchun sizdan cheksiz minnatdorman! 
+            Har bir kuningiz quvonchga, tabassumga va baxtga to'la bo'lishini xohlayman. 
+            Bu kichik shaxsiy sayt esa sizga bo'lgan samimiy tuyg'ularim va qalbimdagi 
+            eng ezgu tilaklarimning bir qismidir..."
+        </p>
+
+        <!-- Maxsus musiqa tugmasi -->
+        <div class="audio-player">
+            <button id="play-btn" onclick="toggleMusic()">🎵 Musiqani tinglash</button>
+            <audio id="bg-music" src="music.mp3" loop></audio>
         </div>
     </div>
 
     <script>
-        function moveButton() {
-            const noBtn = document.getElementById('noBtn');
-            const card = document.getElementById('mainCard');
-            const maxX = window.innerWidth - noBtn.clientWidth - 20;
-            const maxY = window.innerHeight - noBtn.clientHeight - 20;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+        // Musiqani yoqish va o'chirish funksiyasi
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const btn = document.getElementById('play-btn');
+            
+            if (music.paused) {
+                music.play();
+                btn.innerHTML = "⏸️ Musiqani to'xtatish";
+                btn.classList.add('playing');
+            } else {
+                music.pause();
+                btn.innerHTML = "🎵 Musiqani tinglash";
+                btn.classList.remove('playing');
+            }
         }
 
+        // Yurakchalar uchish effekti
         function createHeart() {
+            const container = document.getElementById('hearts-container');
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
+            
+            // Yurakchalarni tasodifiy joylardan chiqarish
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random();
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            
+            container.appendChild(heart);
+            
+            // Ekrandan chiqib ketgach o'chirib tashlash
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
 
-        function nextPage() {
-            document.getElementById('title').innerText = "Dunyodagi eng baxtli insonman! 🎉";
-            document.getElementById('text').innerText = "Sening bu javobing men uchun eng katta sovg‘a bo‘ldi. Va'da beraman, seni har kuni baxtli qilaman. Seni jonimdan ortiq yaxshi ko‘raman, mening shirin malikam! ❤️";
-            document.getElementById('btnContainer').style.display = 'none';
-            setInterval(createHeart, 300);
-        }
+        // Har 300 millisekundda bitta yurakcha yaratish
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
-
