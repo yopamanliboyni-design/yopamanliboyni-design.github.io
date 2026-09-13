@@ -6,29 +6,54 @@
     <title>Sabinam uchun maxsus...</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Skrinshotdagi dizaynni aynan qaytarish */
         .interactive-section {
-            margin-top: 20px;
+            margin-top: 30px;
             margin-bottom: 20px;
+            position: relative;
         }
+        
+        /* "Yo'q" tugmasi dizayni va joylashuvi */
+        .no-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 25px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            position: absolute;
+            top: -240px; /* Rasmni ustiga chiqishi uchun */
+            left: 20%;
+            z-index: 15;
+            transition: all 0.2s ease;
+        }
+
+        /* "Ha" tugmasi dizayni */
         .yes-btn {
             background: #ff4d6d;
             color: white;
-            border: 2px solid #ff4d6d;
-            padding: 10px 35px;
+            border: none;
+            padding: 12px 50px;
             font-size: 18px;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
         }
+        
         .yes-btn:hover {
-            background: white;
-            color: #ff4d6d;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
+
+        /* Yashirin xabar dizayni */
         .secret-message {
             display: none;
-            margin-top: 15px;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed #ffb3c6;
             animation: fadeIn 1s ease-in-out;
         }
         .secret-title {
@@ -60,11 +85,14 @@
     <!-- Ekran bo'ylab uchadigan yuraklar -->
     <div id="hearts-container"></div>
 
-    <div class="card">
+    <div class="card" style="position: relative;">
+        <!-- "Yo'q" tugmasi (boshida rasm ustida turadi) -->
+        <button id="no-button" class="no-btn" onclick="moveNoButton()">Yo'q</button>
+
         <!-- Yuklagan rasmingiz -->
         <img src="photo.jpg" alt="Sabina" class="profile-img">
         
-        <!-- Skrinshotdagi asosiy sarlavha va matn -->
+        <!-- Skrinshotdagi sarlavha va matn -->
         <h1>Yagonam Sabinam... ❤️</h1>
         
         <p class="message">
@@ -74,9 +102,11 @@
             rozimisan?
         </p>
 
-        <!-- "Ha" tugmasi bosilgandan keyin matn, musiqa va "Sen ketma yuragim" chiqadi -->
+        <!-- "Ha" tugmasi bo'limi -->
         <div class="interactive-section">
             <button id="yes-button" class="yes-btn" onclick="revealSecret()">Ha</button>
+            
+            <!-- Tugma bosilganda chiquvchi yashirin matnlar -->
             <div id="secret-text" class="secret-message">
                 <div class="secret-title">Dunyodagi eng baxtli insonman! 🎉</div>
                 <p class="secret-body">
@@ -87,26 +117,36 @@
             </div>
         </div>
 
-        <!-- Yashirin musiqa pleyeri (Tugmasiz, fonda o'zi chalinadi) -->
+        <!-- Yashirin musiqa (Boshida chalınmaydi, tugmasiz) -->
         <audio id="bg-music" src="music.mp3" loop></audio>
     </div>
 
     <script>
+        // "Ha" tugmasi bosilganda ishlovchi funksiya
         function revealSecret() {
-            // "Ha" tugmasini yashirish va maxsus yozuvlarni chiqarish
             document.getElementById('yes-button').style.display = 'none';
+            document.getElementById('no-button').style.display = 'none'; // Yo'q tugmasini ham yo'qotadi
             document.getElementById('secret-text').style.display = 'block';
             
-            // MUHIM JO'YI: "Ha" tugmasi bosilganda musiqa avtomatik chalina boshlaydi
+            // MUSIQANI YOQISH
             const music = document.getElementById('bg-music');
             music.play().catch(error => {
-                console.log("Brauzer musiqani blokladi, lekin ko'p telefonlarda ishlaydi:", error);
+                console.log("Musiqa chalishda xatolik (brauzer cheklovi):", error);
             });
             
-            // Effekt uchun ekran bo'ylab ko'proq yurakchalar otiladi
+            // Ko'p yurakchalar uchishi
             for(let i=0; i<25; i++) {
                 setTimeout(createHeart, i * 100);
             }
+        }
+
+        // "Yo'q" tugmasini bosganda yoki qochib ketishi uchun funksiya (ixtiyoriy)
+        function moveNoButton() {
+            const noBtn = document.getElementById('no-button');
+            // Tugmani bosishga uringanda joyini tasodifiy o'zgartiradi (hazil tariqasida)
+            const x = Math.random() * 50 - 25;
+            const y = Math.random() * 100 - 50;
+            noBtn.style.transform = `translate(${x}px, ${y}px)`;
         }
 
         function createHeart() {
@@ -114,17 +154,12 @@
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
-            
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             heart.style.opacity = Math.random();
             heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            
             container.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => { heart.remove(); }, 5000);
         }
 
         setInterval(createHeart, 300);
