@@ -6,20 +6,17 @@
     <title>Sabinam uchun maxsus...</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Asosiy sahifa elementlari guruhlangan konteyner */
         #first-page {
             display: block;
             text-align: center;
         }
 
-        /* Ha tugmasi bosilganda ochiladigan mutlaqo alohida yangi sahifa */
         #second-page {
             display: none;
             text-align: center;
             animation: fadeIn 1s ease-in-out;
         }
 
-        /* Tugmalar joylashuvi va dizayni */
         .buttons-wrapper {
             margin-top: 25px;
             display: flex;
@@ -53,7 +50,6 @@
             transition: all 0.2s ease;
         }
 
-        /* Ikkinchi sahifadagi matnlar o'lchami */
         .secret-title {
             color: #ff4d6d;
             font-size: 26px;
@@ -81,6 +77,29 @@
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* YURAKCHALAR HAR DOIM ENG TEPADA KO'RINISHI UCHUN ENG MUHIM JOYI */
+        #hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999 !important; /* Bu kod yurakchalarni hamma narsadan tepaga chiqaradi */
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -10%;
+            animation: float up linear infinite;
+            color: #ff4d6d;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -92,57 +111,48 @@
         
         <!-- 1-BOSQICH: BOSHIDA FAQAT SHU QISM KO'RINADI -->
         <div id="first-page">
-            <!-- Yuklagan rasmingiz -->
             <img src="photo.jpg" alt="Sabina" class="profile-img">
-            
             <h1>Yagonam Sabinam... ❤️</h1>
-            
             <p class="message">
                 Hayotimga kirib kelganingdan beri har bir kunim quvonchga to'ldi. Sen mening eng 
                 shirin orzuyim, dunyodagi eng go'zal baxtimsan. Seni cheksiz sevaman va har doim 
                 yonimda bo'lishingni xohlayman. Ayting-chi, mening hayotim quvonchi bo'lishga 
                 rozimisan?
             </p>
-
             <div class="buttons-wrapper">
                 <button id="yes-button" class="yes-btn" onclick="revealSecret()">Ha</button>
                 <button id="no-button" class="no-btn" onclick="moveNoButton()">Yo'q</button>
             </div>
         </div>
 
-        <!-- 2-BOSQICH: "HA" BOSILGANDA TEPADAGILAR YO'QOLIB, FAQAT SHU QISM OCHILADI -->
+        <!-- 2-BOSQICH: "HA" BOSILGANDA OCHILADIGAN TO'G'RILANGAN SAHIFA -->
         <div id="second-page">
             <div class="secret-title">Dunyodagi eng baxtli insonman! 🎉</div>
             <p class="secret-body">
-                Sening bu javobing men lifeline eng katta sovg'a bo'ldi. Va'da beraman, seni har kuni 
+                Sening bu javobing men uchun eng katta sovg'a bo'ldi. Va'da beraman, seni har kuni 
                 baxtli qilaman. Seni jonimdan ortiq yaxshi ko'raman, mening shirin malikam! ❤️
             </p>
             <span class="highlight-text">Sen ketma yuragim ❤️</span>
         </div>
 
-        <!-- Yashirin musiqa (Boshida o'chiq turadi) -->
+        <!-- Yashirin musiqa -->
         <audio id="bg-music" src="music.mp3" loop></audio>
     </div>
 
     <script>
         function revealSecret() {
-            // 1) Birinchi sahifadagi hamma narsani butunlay o'chirish
             document.getElementById('first-page').style.display = 'none';
-            
-            // 2) Ikkinchi sahifadagi yangi maktubni alohida ochish
             document.getElementById('second-page').style.display = 'block';
             
-            // 3) MUSIQANI YOQISH
             const music = document.getElementById('bg-music');
             music.play().catch(error => {
-                console.log("Musiqa brauzer cheklovi tufayli to'xtadi:", error);
+                console.log("Musiqa ijrosida cheklov:", error);
             });
             
-            // 4) Ekran to'lib chiroyli yurakchalar uchishini boshlash
-            setInterval(createHeart, 150); 
+            // Yuraklar ko'p va chiroyli uchishi uchun intervallarni to'g'rilaymiz
+            setInterval(createHeart, 200); 
         }
 
-        // Yo'q tugmasi hazili (bosmoqchi bo'lganda qochadigan qilish)
         function moveNoButton() {
             const noBtn = document.getElementById('no-button');
             const x = Math.random() * 60 - 30;
@@ -152,13 +162,14 @@
 
         function createHeart() {
             const container = document.getElementById('hearts-container');
+            if(!container) return;
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 25 + 10 + 'px';
+            heart.style.fontSize = Math.random() * 25 + 15 + 'px';
             container.appendChild(heart);
             setTimeout(() => { heart.remove(); }, 5000);
         }
