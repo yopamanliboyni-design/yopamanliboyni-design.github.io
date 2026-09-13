@@ -5,83 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabinam uchun maxsus...</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .interactive-section {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .yes-btn {
-            background: #ff4d6d;
-            color: white;
-            border: 2px solid #ff4d6d;
-            padding: 8px 25px;
-            font-size: 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .yes-btn:hover {
-            background: white;
-            color: #ff4d6d;
-            transform: scale(1.1);
-        }
-        .secret-message {
-            display: none;
-            margin-top: 15px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .secret-title {
-            color: #ff4d6d;
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .secret-body {
-            color: #4a4a4a;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Ekran bo'ylab uchadigan yuraklar -->
     <div id="hearts-container"></div>
 
     <div class="card">
-        <!-- Yuklagan rasmingiz -->
         <img src="photo.jpg" alt="Sabina" class="profile-img">
-        
         <h1>Sabina ❤️</h1>
         
-        <!-- Duolar to'liq saqlangan asosiy matn -->
+        <!-- Birinchi qism: Duolar -->
         <p class="message">
             "Siz dunyodagi eng go'zal, eng begubor va men uchun eng qadrli insonsiz. 
             Borligingiz uchun, hayotimda borligingiz uchun sizdan cheksiz minnatdorman! 
             Sizga Oisha onamizning taqvosini, Hadicha onamizning qalbini, Fotima onamizning muloyimligini, 
-            Yusuf alayhissalomning chiroyini va Muhammad sollallohu alayhi vasallamning go'zal xulqlarini so'rab qolaman. 
+            Yusuf alayhissalomning chiroyini va Muhammad sollallohu alayhi vasallamning go'zal xulqlarini so'rao qolaman. 
             Har bir kuningiz quvonchga, tabassumga va baxtga to'la bo'lsin..."
         </p>
 
-        <!-- "Ha" tugmasi bosilgandan keyin skrinshotdagi matn va sizning gapingiz chiqadi -->
+        <!-- Ikkinchi qism: Interaktiv Ha tugmasi -->
         <div class="interactive-section">
             <button id="yes-button" class="yes-btn" onclick="revealSecret()">Ha</button>
             <div id="secret-text" class="secret-message">
                 <div class="secret-title">Dunyodagi eng baxtli insonman! 🎉</div>
-                <div class="secret-body">
+                <p class="secret-body">
                     Sening bu javobing men uchun eng katta sovg'a bo'ldi. Va'da beraman, seni har kuni 
-                    baxtli qilaman. Seni jonimdan ortiq yaxshi ko'raman, mening shirin malikam! ❤️ <br><br>
-                    <strong>Sen ketma yuragim ❤️</strong>
-                </div>
+                    baxtli qilaman. Seni jonimdan ortiq yaxshi ko'raman, mening shirin malikam! ❤️
+                </p>
+                <span class="highlight-text">Sen ketma yuragim ❤️</span>
             </div>
         </div>
 
-        <!-- Maxsus musiqa tugmasi -->
+        <!-- Uchinchi qism: Musiqa pleyeri -->
         <div class="audio-player">
             <button id="play-btn" onclick="toggleMusic()">🎵 Musiqani tinglash</button>
             <audio id="bg-music" src="music.mp3" loop></audio>
@@ -92,8 +47,6 @@
         function revealSecret() {
             document.getElementById('yes-button').style.display = 'none';
             document.getElementById('secret-text').style.display = 'block';
-            
-            // Effekt uchun ko'proq yurakchalar otiladi
             for(let i=0; i<20; i++) {
                 setTimeout(createHeart, i * 100);
             }
@@ -102,15 +55,12 @@
         function toggleMusic() {
             const music = document.getElementById('bg-music');
             const btn = document.getElementById('play-btn');
-            
             if (music.paused) {
                 music.play();
                 btn.innerHTML = "⏸️ Musiqani to'xtatish";
-                btn.classList.add('playing');
             } else {
                 music.pause();
                 btn.innerHTML = "🎵 Musiqani tinglash";
-                btn.classList.remove('playing');
             }
         }
 
@@ -119,19 +69,13 @@
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
-            
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             heart.style.opacity = Math.random();
             heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            
             container.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => { heart.remove(); }, 5000);
         }
-
         setInterval(createHeart, 300);
     </script>
 </body>
