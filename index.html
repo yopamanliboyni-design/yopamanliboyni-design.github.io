@@ -5,25 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sabinam uchun maxsus...</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .interactive-section {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .yes-btn {
+            background: #ff4d6d;
+            color: white;
+            border: 2px solid #ff4d6d;
+            padding: 10px 35px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        .yes-btn:hover {
+            background: white;
+            color: #ff4d6d;
+            transform: scale(1.1);
+        }
+        .secret-message {
+            display: none;
+            margin-top: 15px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .secret-title {
+            color: #ff4d6d;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .secret-body {
+            color: #4a4a4a;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .highlight-text {
+            color: #c9184a;
+            font-size: 18px;
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
+    <!-- Ekran bo'ylab uchadigan yuraklar -->
     <div id="hearts-container"></div>
 
     <div class="card">
+        <!-- Yuklagan rasmingiz -->
         <img src="photo.jpg" alt="Sabina" class="profile-img">
-        <h1>Sabina ❤️</h1>
         
-        <!-- Birinchi qism: Duolar -->
+        <!-- Skrinshotdagi asosiy sarlavha va matn -->
+        <h1>Yagonam Sabinam... ❤️</h1>
+        
         <p class="message">
-            "Siz dunyodagi eng go'zal, eng begubor va men uchun eng qadrli insonsiz. 
-            Borligingiz uchun, hayotimda borligingiz uchun sizdan cheksiz minnatdorman! 
-            Sizga Oisha onamizning taqvosini, Hadicha onamizning qalbini, Fotima onamizning muloyimligini, 
-            Yusuf alayhissalomning chiroyini va Muhammad sollallohu alayhi vasallamning go'zal xulqlarini so'rao qolaman. 
-            Har bir kuningiz quvonchga, tabassumga va baxtga to'la bo'lsin..."
+            Hayotimga kirib kelganingdan beri har bir kunim quvonchga to'ldi. Sen mening eng 
+            shirin orzuyim, dunyodagi eng go'zal baxtimsan. Seni cheksiz sevaman va har doim 
+            yonimda bo'lishingni xohlayman. Ayting-chi, mening hayotim quvonchi bo'lishga 
+            rozimisan?
         </p>
 
-        <!-- Ikkinchi qism: Interaktiv Ha tugmasi -->
+        <!-- "Ha" tugmasi bosilgandan keyin matn, musiqa va "Sen ketma yuragim" chiqadi -->
         <div class="interactive-section">
             <button id="yes-button" class="yes-btn" onclick="revealSecret()">Ha</button>
             <div id="secret-text" class="secret-message">
@@ -36,31 +87,25 @@
             </div>
         </div>
 
-        <!-- Uchinchi qism: Musiqa pleyeri -->
-        <div class="audio-player">
-            <button id="play-btn" onclick="toggleMusic()">🎵 Musiqani tinglash</button>
-            <audio id="bg-music" src="music.mp3" loop></audio>
-        </div>
+        <!-- Yashirin musiqa pleyeri (Tugmasiz, fonda o'zi chalinadi) -->
+        <audio id="bg-music" src="music.mp3" loop></audio>
     </div>
 
     <script>
         function revealSecret() {
+            // "Ha" tugmasini yashirish va maxsus yozuvlarni chiqarish
             document.getElementById('yes-button').style.display = 'none';
             document.getElementById('secret-text').style.display = 'block';
-            for(let i=0; i<20; i++) {
-                setTimeout(createHeart, i * 100);
-            }
-        }
-
-        function toggleMusic() {
+            
+            // MUHIM JO'YI: "Ha" tugmasi bosilganda musiqa avtomatik chalina boshlaydi
             const music = document.getElementById('bg-music');
-            const btn = document.getElementById('play-btn');
-            if (music.paused) {
-                music.play();
-                btn.innerHTML = "⏸️ Musiqani to'xtatish";
-            } else {
-                music.pause();
-                btn.innerHTML = "🎵 Musiqani tinglash";
+            music.play().catch(error => {
+                console.log("Brauzer musiqani blokladi, lekin ko'p telefonlarda ishlaydi:", error);
+            });
+            
+            // Effekt uchun ekran bo'ylab ko'proq yurakchalar otiladi
+            for(let i=0; i<25; i++) {
+                setTimeout(createHeart, i * 100);
             }
         }
 
@@ -69,13 +114,19 @@
             const heart = document.createElement('div');
             heart.classList.add('heart');
             heart.innerHTML = '❤️';
+            
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
             heart.style.opacity = Math.random();
             heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            
             container.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
+
         setInterval(createHeart, 300);
     </script>
 </body>
