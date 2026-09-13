@@ -17,6 +17,7 @@
             animation: fadeIn 1s ease-in-out;
         }
 
+        /* "Sevaman" va "Yo'q" tugmalari joylashuvi */
         .buttons-wrapper {
             margin-top: 25px;
             display: flex;
@@ -24,7 +25,8 @@
             gap: 20px;
         }
 
-        .yes-btn {
+        /* "Sevaman" tugmasining chiroyli dizayni */
+        .love-btn {
             background: #ff4d6d;
             color: white;
             border: none;
@@ -36,8 +38,9 @@
             box-shadow: 0 5px 15px rgba(255, 77, 109, 0.3);
             transition: all 0.3s ease;
         }
-        .yes-btn:hover { transform: scale(1.05); }
+        .love-btn:hover { transform: scale(1.05); }
 
+        /* "Yo'q" tugmasi dizayni */
         .no-btn {
             background: #6c757d;
             color: white;
@@ -78,7 +81,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* TAYYOR ASOSIY YURAKCHALAR KONTEYNERI */
+        /* YURAKCHALAR HAR DOIM ENG TEPADA KO'RINISHI UCHUN */
         .hearts-bg {
             position: fixed;
             top: 0;
@@ -87,7 +90,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 9999;
-            display: none; /* Boshida ko'rinmaydi */
+            display: none;
         }
 
         .static-heart {
@@ -97,7 +100,6 @@
             animation: floatUp linear infinite;
         }
 
-        /* Har bir yurakchaga alohida tezlik va joylashuv */
         .h1 { left: 10%; font-size: 20px; animation-duration: 4s; animation-delay: 0s; }
         .h2 { left: 25%; font-size: 30px; animation-duration: 5s; animation-delay: 1s; }
         .h3 { left: 40%; font-size: 15px; animation-duration: 3s; animation-delay: 0.5s; }
@@ -111,7 +113,7 @@
 </head>
 <body>
 
-    <!-- 100% ISHLAYDIGAN TAYYOR YURAKCHALAR -->
+    <!-- YURAKCHALAR KONTEYNERI -->
     <div id="hearts-wrapper" class="hearts-bg">
         <div class="static-heart h1">❤️</div>
         <div class="static-heart h2">❤️</div>
@@ -137,12 +139,13 @@
                 rozimisan?
             </p>
             <div class="buttons-wrapper">
-                <button id="yes-button" class="yes-btn" onclick="revealSecret()">Ha</button>
+                <!-- "HA" O'RNIGA "SEVAMAN ❤️" TUGMASI QO'YILDI, "YO'Q" ESA JOYIDA -->
+                <button class="love-btn" onclick="revealSecret()">Sevaman ❤️</button>
                 <button id="no-button" class="no-btn" onclick="moveNoButton()">Yo'q</button>
             </div>
         </div>
 
-        <!-- 2-BOSQICH: "HA" BOSILGANDA OCHILADIGAN SAHIFA -->
+        <!-- 2-BOSQICH: "SEVAMAN" BOSILGANDA OCHILADIGAN SAHIFA -->
         <div id="second-page">
             <div class="secret-title">Dunyodagi eng baxtli insonman! 🎉</div>
             <p class="secret-body">
@@ -158,11 +161,9 @@
 
     <script>
         function revealSecret() {
-            // Asosiy o'zgarishlar
+            // Birinchi sahifani yashirish, ikkinchisini va yurakchalarni ochish
             document.getElementById('first-page').style.display = 'none';
             document.getElementById('second-page').style.display = 'block';
-            
-            // YURAKCHALARNI YOQISH (Bloklangan id to'g'rilandi)
             document.getElementById('hearts-wrapper').style.display = 'block';
             
             // MUSIQANI YOQISH
@@ -172,6 +173,7 @@
             });
         }
 
+        // Yo'q tugmasi bosilmoqchi bo'lganda qochadigan qilish hazili
         function moveNoButton() {
             const noBtn = document.getElementById('no-button');
             const x = Math.random() * 60 - 30;
