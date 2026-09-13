@@ -78,34 +78,51 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* YURAKCHALAR HAR DOIM ENG TEPADA KO'RINISHI UCHUN ENG MUHIM JOYI */
-        #hearts-container {
+        /* TAYYOR ASOSIY YURAKCHALAR KONTEYNERI */
+        .hearts-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9999 !important; /* Bu kod yurakchalarni hamma narsadan tepaga chiqaradi */
+            z-index: 9999;
+            display: none; /* Boshida ko'rinmaydi */
         }
 
-        .heart {
+        .static-heart {
             position: absolute;
             bottom: -10%;
-            animation: float up linear infinite;
             color: #ff4d6d;
+            animation: floatUp linear infinite;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
-        }
+        /* Har bir yurakchaga alohida tezlik va joylashuv */
+        .h1 { left: 10%; font-size: 20px; animation-duration: 4s; animation-delay: 0s; }
+        .h2 { left: 25%; font-size: 30px; animation-duration: 5s; animation-delay: 1s; }
+        .h3 { left: 40%; font-size: 15px; animation-duration: 3s; animation-delay: 0.5s; }
+        .h4 { left: 55%; font-size: 25px; animation-duration: 6s; animation-delay: 2s; }
+        .h5 { left: 70%; font-size: 18px; animation-duration: 4s; animation-delay: 1.5s; }
+        .h6 { left: 85%; font-size: 35px; animation-duration: 5s; animation-delay: 0s; }
+        .h7 { left: 15%; font-size: 22px; animation-duration: 4.5s; animation-delay: 2.5s; }
+        .h8 { left: 45%; font-size: 28px; animation-duration: 3.5s; animation-delay: 1.2s; }
+        .h9 { left: 65%; font-size: 16px; animation-duration: 5.5s; animation-delay: 0.8s; }
     </style>
 </head>
 <body>
 
-    <!-- Ekran bo'ylab uchadigan yuraklar -->
-    <div id="hearts-container"></div>
+    <!-- 100% ISHLAYDIGAN TAYYOR YURAKCHALAR -->
+    <div id="hearts-wrapper" class="hearts-bg">
+        <div class="static-heart h1">❤️</div>
+        <div class="static-heart h2">❤️</div>
+        <div class="static-heart h3">❤️</div>
+        <div class="static-heart h4">❤️</div>
+        <div class="static-heart h5">❤️</div>
+        <div class="static-heart h6">❤️</div>
+        <div class="static-heart h7">❤️</div>
+        <div class="static-heart h8">❤️</div>
+        <div class="static-heart h9">❤️</div>
+    </div>
 
     <div class="card">
         
@@ -125,7 +142,7 @@
             </div>
         </div>
 
-        <!-- 2-BOSQICH: "HA" BOSILGANDA OCHILADIGAN TO'G'RILANGAN SAHIFA -->
+        <!-- 2-BOSQICH: "HA" BOSILGANDA OCHILADIGAN SAHIFA -->
         <div id="second-page">
             <div class="secret-title">Dunyodagi eng baxtli insonman! 🎉</div>
             <p class="secret-body">
@@ -141,16 +158,18 @@
 
     <script>
         function revealSecret() {
+            // Asosiy o'zgarishlar
             document.getElementById('first-page').style.display = 'none';
             document.getElementById('second-page').style.display = 'block';
             
+            // YURAKCHALARNI YOQISH (Bloklangan id to'g'rilandi)
+            document.getElementById('hearts-wrapper').style.display = 'block';
+            
+            // MUSIQANI YOQISH
             const music = document.getElementById('bg-music');
             music.play().catch(error => {
                 console.log("Musiqa ijrosida cheklov:", error);
             });
-            
-            // Yuraklar ko'p va chiroyli uchishi uchun intervallarni to'g'rilaymiz
-            setInterval(createHeart, 200); 
         }
 
         function moveNoButton() {
@@ -158,20 +177,6 @@
             const x = Math.random() * 60 - 30;
             const y = Math.random() * 80 - 40;
             noBtn.style.transform = `translate(${x}px, ${y}px)`;
-        }
-
-        function createHeart() {
-            const container = document.getElementById('hearts-container');
-            if(!container) return;
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 25 + 15 + 'px';
-            container.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
         }
     </script>
 </body>
